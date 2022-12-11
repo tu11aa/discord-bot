@@ -1,0 +1,19 @@
+{
+  "name": "discord-bot",
+  "version": "1.0.0",
+  "description": "Bot for discord",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tu11aa/discord-bot.git"
+  },
+  "author": "Tu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tu11aa/discord-bot/issues"
+  },
+  "homepage": "https://github.com/tu11aa/discord-bot#readme"
+}
