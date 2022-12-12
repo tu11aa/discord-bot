@@ -32,32 +32,32 @@ for (const file of commandFiles) {
 client.once(Events.ClientReady, () => {
   console.log(`Logged in as ${client.user.tag}!`);
 
-  const task = async () => {
+  const task = () => {
     const guild = client.guilds.cache.get(process.env.SERVER_ID);
     guild.members
       .fetch({ withPresences: true })
       .then(async (fetchedMembers) => {
         const totalOnline = fetchedMembers.filter(
-          (member) => member.presence?.status === "online"
+          (member) => member.presence?.status !== "offline" && !member.user.bot
         );
-        // Now you have a collection with all online member objects in the totalOnline variable
-        totalOnline.forEach(async (member) => {
-          await member.send("Éc quá giờ gòi đi ngủ mauuuuuuuu");
-        });
+        // totalOnline.forEach((member) => console.log(member));e
+        totalOnline.forEach((member) =>
+          member.send("Éc quá giờ gòi đi ngủ mauuuuuuuu")
+        );
         await wait(1000);
-        totalOnline.forEach(async (member) => {
-          await member.send("Ngủ đê bé ơi đêm đã khuya gòiiii");
-        });
+        totalOnline.forEach((member) =>
+          member.send("Ngủ đê bé ơi đêm đã khuya gòiiii")
+        );
         await wait(1000);
-        totalOnline.forEach(async (member) => {
-          await member.send("Nhớ đi ngủ đấyyyy");
-        });
+        totalOnline.forEach((member) => member.send("Nhớ đi ngủ đấyyyy"));
       });
   };
   const schedule1 = new cron.CronJob("00 00 01 * * *", task);
   const schedule2 = new cron.CronJob("00 30 01 * * *", task);
+  const schedule3 = new cron.CronJob("00 00 02 * * *", task);
   schedule1.start();
   schedule2.start();
+  schedule3.start();
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {

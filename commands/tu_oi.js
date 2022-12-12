@@ -8,10 +8,10 @@ module.exports = {
     .setDescription("Nhớ Tú thì kêu Tú điii")
     .addSubcommand((subcommand) =>
       subcommand.setName("hi").setDescription("Say Hi")
+    )
+    .addSubcommand((subcommand) =>
+      subcommand.setName("play_yt").setDescription("Play Youtube music")
     ),
-  // .addSubcommand((subcommand) =>
-  //   subcommand.setName("play_yt").setDescription("Play Youtube music")
-  // ),
   async execute(interaction) {
     const subCommand = interaction.options.getSubcommand();
     if (subCommand === "hi") await defalultFunc(interaction);
@@ -20,7 +20,7 @@ module.exports = {
 };
 
 const defalultFunc = async (interaction) => {
-  await interaction.editReply("Hello bé êu của Túuuu");
+  await interaction.reply("Hello bé êu của Túuuu");
   const sender = interaction.member;
   if (sender.id === process.env.QUIN_ID) {
     await wait(500);
