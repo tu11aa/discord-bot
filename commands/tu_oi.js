@@ -21,12 +21,20 @@ module.exports = {
             .setName("timer")
             .setDescription("Đặt số phút trước khi bị kick :))")
         )
+    )
+    .addSubcommand((subCommand) =>
+      subCommand.setName("love").setDescription("Yêu ó")
+    )
+    .addSubcommand((subCommand) =>
+      subCommand.setName("hug").setDescription("Ôm nè")
     ),
   async execute(interaction) {
     const subCommand = interaction.options.getSubcommand();
     if (subCommand === "hi") await defalultFunc(interaction);
     else if (subCommand === "play_yt") await play_ytFunc(interaction);
     else if (subCommand === "sleeping_mod") await sleepModFunc(interaction);
+    else if (subCommand === "love") await loveFunc(interaction);
+    else if (subCommand === "hug") await hugFunc(interaction);
   },
 };
 
@@ -85,4 +93,16 @@ const sleepModFunc = async (interaction) => {
       );
       totalOnline.forEach((member) => member.voice.disconnect());
     });
+};
+
+const loveFunc = async (interaction) => {
+  interaction.reply(
+    `Boss <@${process.env.ME_ID}> và bé Iu chị <@${process.env.QUIN_ID}> rất rất rất nhiềuuuuuuuuu ♥♥♥`
+  );
+};
+
+const hugFunc = async (interaction) => {
+  interaction.reply(
+    `Chỉ Boss <@${process.env.ME_ID}> mới được ôm chị <@${process.env.QUIN_ID}> hoy, hông cho ai khác ôm hết ♥♥♥`
+  );
 };

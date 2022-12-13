@@ -30,11 +30,31 @@ for (const file of commandFiles) {
   client.commands.set(command.data.name, command);
 }
 
+const greet = (channel, check) => {
+  channel.send("Hello mọi người, Bot Tú on rồi nèeee");
+  if (!check)
+    channel.send(
+      `Huhu bé online rồi mà chị <@${process.env.QUIN_ID}> chưa onl, Tú lớn và Tú nhỏ đều buồn :((`
+    );
+};
+
 client.once(Events.ClientReady, () => {
   console.log(`Logged in as ${client.user.tag}!`);
+  const guild = client.guilds.cache.get(process.env.SERVER_ID);
+  const channel = guild.channels.cache.get(process.env.CHAT_CHANNEL);
+  //check if Quin is online
+  guild.members.fetch({ withPresences: true }).then((fetchedMembers) => {
+    const totalOnline = fetchedMembers.filter(
+      (member) => member.presence?.status !== "offline"
+    );
+    let check = false;
+    totalOnline.forEach((member) => {
+      if (member.id === process.env.QUIN_ID) check = true;
+    });
+    greet(channel, check);
+  });
 
   const task = () => {
-    const guild = client.guilds.cache.get(process.env.SERVER_ID);
     guild.members
       .fetch({ withPresences: true })
       .then(async (fetchedMembers) => {
