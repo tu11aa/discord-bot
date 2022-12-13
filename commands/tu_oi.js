@@ -11,11 +11,22 @@ module.exports = {
     )
     .addSubcommand((subcommand) =>
       subcommand.setName("play_yt").setDescription("Play Youtube music")
+    )
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName("sleeping_mod")
+        .setDescription("Chế độ afk để ngủ nha")
+        .addNumberOption((option) =>
+          option
+            .setName("timer")
+            .setDescription("Đặt số phút trước khi bị kick :))")
+        )
     ),
   async execute(interaction) {
     const subCommand = interaction.options.getSubcommand();
     if (subCommand === "hi") await defalultFunc(interaction);
     else if (subCommand === "play_yt") await play_ytFunc(interaction);
+    else if (subCommand === "sleeping_mod") await sleepModFunc(interaction);
   },
 };
 
@@ -44,4 +55,34 @@ const play_ytFunc = async (interaction) => {
   await interaction.deferReply();
   if (!interaction.member.voice?.channel)
     return interaction.editReply("Connect to a Voice Channel");
+};
+
+const sleepModFunc = async (interaction) => {
+  if (!interaction.member.voice.channel)
+    return await interaction.reply("Vào kênh đi rồi mới set được nè!");
+
+  const timer = interaction.options.getNumber("timer") ?? 30;
+  await interaction.reply(
+    `Bé iu ngủ đi đêm đã khuya rồi. ${timer} phút nữa Bot Tú sẽ tắt dùm mọi người nha`
+  );
+  //timer
+  let timerSeconds = Math.floor(timer) * 60;
+  while (timerSeconds > 0) {
+    await wait(1000);
+    timerSeconds -= 1;
+    interaction.editReply(
+      `Bé iu ngủ đi đêm đã khuya rồi. ${Math.floor(timerSeconds / 60)} phút ${
+        timerSeconds % 60
+      } giây nữa Bot Tú sẽ tắt dùm mọi người nha`
+    );
+  }
+  //disconnect all member in this channel
+  interaction.guild.members
+    .fetch({ withPresences: true })
+    .then(async (fetchedMembers) => {
+      const totalOnline = fetchedMembers.filter(
+        (member) => member.presence?.status !== "offline" && !member.user.bot
+      );
+      totalOnline.forEach((member) => member.voice.disconnect());
+    });
 };

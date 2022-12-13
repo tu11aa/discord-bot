@@ -14,6 +14,7 @@ const client = new Client({
     GatewayIntentBits.MessageContent,
     GatewayIntentBits.GuildMembers,
     GatewayIntentBits.GuildPresences,
+    GatewayIntentBits.GuildVoiceStates,
   ],
 });
 //settup splash commands
@@ -40,7 +41,6 @@ client.once(Events.ClientReady, () => {
         const totalOnline = fetchedMembers.filter(
           (member) => member.presence?.status !== "offline" && !member.user.bot
         );
-        // totalOnline.forEach((member) => console.log(member));e
         totalOnline.forEach((member) =>
           member.send("Éc quá giờ gòi đi ngủ mauuuuuuuu")
         );
