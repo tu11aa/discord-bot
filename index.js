@@ -45,8 +45,9 @@ client.once(Events.ClientReady, () => {
   //check if Quin is online
   guild.members.fetch({ withPresences: true }).then((fetchedMembers) => {
     const totalOnline = fetchedMembers.filter(
-      (member) => member.presence?.status !== "offline"
+      (member) => member.presence && member.presence?.status !== "offline"
     );
+
     let check = false;
     totalOnline.forEach((member) => {
       if (member.id === process.env.QUIN_ID) check = true;

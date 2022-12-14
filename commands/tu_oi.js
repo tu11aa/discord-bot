@@ -27,6 +27,14 @@ module.exports = {
     )
     .addSubcommand((subCommand) =>
       subCommand.setName("hug").setDescription("Ôm nè")
+    )
+    .addSubcommand((subCommand) =>
+      subCommand
+        .setName("send")
+        .setDescription("Hông có")
+        .addStringOption((option) =>
+          option.setName("message").setDescription("Hông có")
+        )
     ),
   async execute(interaction) {
     const subCommand = interaction.options.getSubcommand();
@@ -35,6 +43,7 @@ module.exports = {
     else if (subCommand === "sleeping_mod") await sleepModFunc(interaction);
     else if (subCommand === "love") await loveFunc(interaction);
     else if (subCommand === "hug") await hugFunc(interaction);
+    else if (subCommand === "send") await sendFunc(interaction);
   },
 };
 
@@ -105,4 +114,12 @@ const hugFunc = async (interaction) => {
   interaction.reply(
     `Chỉ Boss <@${process.env.ME_ID}> mới được ôm chị <@${process.env.QUIN_ID}> hoy, hông cho ai khác ôm hết ♥♥♥`
   );
+};
+
+const sendFunc = async (interaction) => {
+  const message = await interaction.options.getString("message");
+  await interaction.guild.channels.cache
+    .get(interaction.channelId)
+    .send(message); 
+  interaction.reply({ content: "Okela", ephemeral: true });
 };
